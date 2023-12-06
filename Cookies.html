@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cookie Demo</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin: 50px;
+    }
+    button {
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Cookie Demo</h1>
+  <p id="cookieValue">No cookie set yet!</p>
+  <button onclick="setCookie()">Set Cookie</button>
+
+  <script>
+    function setCookie() {
+      const cookieName = 'demoCookie';
+      const cookieValue = 'Hello, Cookie!';
+      const expirationDays = 7;
+
+      // Set the cookie with a name, value, and expiration date
+      const date = new Date();
+      date.setTime(date.getTime() + (expirationDays * 24 * 60 * 60 * 1000));
+      const expires = 'expires=' + date.toUTCString();
+      document.cookie = cookieName + '=' + cookieValue + ';' + expires + ';path=/';
+
+      // Display the cookie value
+      displayCookieValue(cookieValue);
+    }
+
+    function displayCookieValue(defaultValue) {
+      const cookies = document.cookie.split(';');
+      let cookieValue = defaultValue;
+
+      for (const cookie of cookies) {
+        const [name, value] = cookie.split('=');
+        if (name.trim() === 'demoCookie') {
+          cookieValue = decodeURIComponent(value);
+          break;
+        }
+      }
+
+      document.getElementById('cookieValue').innerText = 'Cookie Value: ' + cookieValue;
+    }
+
+    // Check for existing cookie on page load
+    window.onload = function () {
+      displayCookieValue('No cookie set yet!');
+    };
+  </script>
+
+</body>
+</html>
